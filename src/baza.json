@@ -1,0 +1,83 @@
+﻿{
+            "selected": null,
+            "templates": [
+                {"type": "item", "id": 2},
+                {"type": "container", "id": 1, "columns": []}
+            ],
+            "dropzoneA": {
+                "A": [
+                        {
+                          "type": "container",
+                          "id": 1,
+                          "nest" : false,
+                          "desc" : "Lorem Ipsum Dolor Sit Amet",
+                          "date" : "June 23rd 2017, 22:18:00",
+                          "right": false,
+                          "columns": [
+                            [
+                              {
+                                "type": "container",
+                                "id": 2,
+                                "nest" : false,
+                                "desc" : "Lorem Ipsum Dolor Sit Amet",
+                                "date" : "June 23rd 2017, 22:18:00",
+                                "right": false,
+                                "columns": [
+                                  [
+                                    {
+                                      "type": "container",
+                                      "id": 3,
+                                      "nest" : false,
+                                      "desc" : "Lorem Ipsum Dolor Sit Amet",
+                                      "date" : "June 23rd 2017, 22:18:00",
+                                      "right": false,
+                                      "columns": [
+                                        []
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        }
+                ]
+            },
+            "dropzoneB": {
+                "B": [
+                       {
+                        "type": "Rcontainer",
+                        "id": 4,
+                        "nest" : true,
+                        "desc" : "Lorem Ipsum Dolor Sit Amet",
+                        "date" : "June 23rd 2017, 22:18:00",
+                        "right": true,
+                        "columns": [
+                          []
+                        ]
+                      },
+                      {
+                        "type": "Rcontainer",
+                        "id": 5,
+                        "nest" : true,
+                        "desc" : "Lorem Ipsum Dolor Sit Amet",
+                        "date" : "June 23rd 2017, 22:18:00",
+                        "right": true,
+                        "columns": [
+                          []
+                        ]
+                      },
+                      {
+                        "type": "Rcontainer",
+                        "id": 6,
+                        "nest" : true,
+                        "desc" : "Lorem Ipsum Dolor Sit Amet",
+                        "date" : "June 23rd 2017, 22:18:00",
+                        "right": true,
+                        "columns": [
+                          []
+                        ]
+                      }
+                ]
+            }
+        }

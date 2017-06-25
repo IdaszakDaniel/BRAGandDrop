@@ -1,0 +1,165 @@
+<!doctype html>
+<html ng-app="cartProject">
+  <head>
+    <meta charset="utf-8">
+    <title>BRAG and drop</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/angular-toastr/dist/angular-toastr.css" />
+    <link rel="stylesheet" href="../bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="app/index.css">
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div ng-controller="NestedListsDemoController as drag">
+
+      <div class="col-md-12 navbar">
+        <div class="col-md-1">
+          <button class="navbar__button navbar__button--pl" ng-click="ChangeLang('label_PL')"></button>{{label.PL}}
+        </div>
+        <div class="col-md-1">
+          <button class="navbar__button navbar__button--eng" ng-click="ChangeLang('label_ENG')"></button>{{label.ENG}}
+        </div>
+        <div class="col-md-2 trashcan box box-grey box-padding pull-right">
+          <!-- If you use [] as referenced list, the dropped elements will be lost -->
+          <ul class="trashcan__list" dnd-list="[]">
+              <li>{{label.Trash}}</li>
+          </ul>
+        </div>
+      </div>
+      
+      <script type="text/ng-template" id="list.html"> <!-- dropzone A list -->
+        <ul dnd-list="list"
+        dnd-dragover="check(index)"
+        dnd-drop="onDropLeft(item)">
+            <li ng-repeat="item in list"
+                dnd-draggable="item"
+                dnd-effect-allowed="move"
+                dnd-moved="list.splice($index, 1)"
+                dnd-selected="models.selected = item"
+                ng-class="{selected: models.selected === item}"
+                ng-include="item.type + '.html'">
+            </li>
+        </ul>
+      </script>
+
+      <script type="text/ng-template" id="RListOuter.html"> <!-- dropzone B outer list -->
+        <ul dnd-list="list"
+        dnd-disable-if="true">
+            <li ng-repeat="item in list"
+                dnd-draggable="item"
+                dnd-effect-allowed="copy"
+                dnd-moved="list.splice($index, 1)"
+                dnd-selected="models.selected = item"
+                ng-class="{selected: models.selected === item}"
+                ng-include="item.type + '.html'"
+                >
+            </li>
+        </ul>
+      </script>
+
+        <script type="text/ng-template" id="RListInner.html"> <!-- dropzone b inner list -->
+        <ul dnd-list="list"
+        dnd-drop="onDropRight(item)">
+            <li ng-repeat="item in list"
+                dnd-draggable="item"
+                dnd-effect-allowed="move"
+                dnd-moved="list.splice($index, 1)"
+                dnd-selected="models.selected = item"
+                ng-class="{selected: models.selected === item}"
+                ng-include="item.type + '.html'"
+                >
+            </li>
+        </ul>
+      </script>
+
+      <!-- This template is responsible for rendering a container element. It uses
+           the above list template to render each container column -->
+      <script type="text/ng-template" id="container.html">
+          <div class="container-element box" >
+              <h3>{{label.LContainer}} {{item.id}}</h3>
+              <input type="text" ng-model="item.desc" class="form-control">
+              <p>ID: {{item.id}}</p>
+              <p>{{label.Date}}: {{item.date}}</p>
+              <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
+              <div class="clearfix"></div>
+          </div>
+      </script>
+
+      <script type="text/ng-template" id="Rcontainer.html">
+          <div class="container-element box" >
+              <h3>{{label.RContainer}} {{item.id}}</h3>
+              <input type="text" ng-model="item.desc" class="form-control">
+              <p>ID: {{item.id}}</p>
+              <p>{{label.Date}}: {{item.date}}</p>
+              <div class="column" ng-repeat="list in item.columns" ng-include="'RListInner.html'"></div>
+              <div class="clearfix"></div>
+          </div>
+      </script>
+
+      <!-- Main area with dropzones and source code -->
+      <div class="col-md-12">
+          <div class="row">
+              <div ng-repeat="(zone, list) in models.dropzoneA" class="col-md-6">
+                  <div class="dropzone box box-yellow">
+                      <!-- The dropzone also uses the list template -->
+                      <h3>{{label.BoxName}} {{zone}}</h3>
+                      <div ng-include="'list.html'"></div>
+                  </div>
+              </div>
+              <div ng-repeat="(zone, list) in models.dropzoneB" class="col-md-6">
+                  <div class="dropzone box box-yellow">
+                      <!-- The dropzone also uses the list template -->
+                      <h3>{{label.BoxName}} {{zone}}</h3>
+                      <div ng-include="'RListOuter.html'"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/malarkey/dist/malarkey.min.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="../bower_components/moment/moment.js"></script>
+    <script src="../bower_components/chart.js/dist/Chart.js"></script>
+    <script src="../bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src="../bower_components/pouchdb/dist/pouchdb.js"></script>
+    <script src="../bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+    <!-- inject:js -->
+    <script src="app/index.module.js"></script>
+    <script src="app/main/getJsonService.js"></script>
+    <script src="app/main/drag.controller.js"></script>
+    <script src="app/index.run.js"></script>
+    <script src="app/index.constants.js"></script>
+    <script src="app/index.config.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:partials -->
+    <!-- angular templates will be automatically converted in js and inserted here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+  </body>
+</html>

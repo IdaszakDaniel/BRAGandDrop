@@ -1,0 +1,9 @@
+{
+  "BoxName" : "Lista",
+  "LContainer": "Lewy Obiekt",
+  "RContainer": "Prawy Obiekt",
+  "Date" : "Data",
+  "Trash" : "Upuść element aby usunąć",
+  "PL" : "Polski",
+  "ENG" : "Angielski"
+}

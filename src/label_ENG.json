@@ -1,0 +1,9 @@
+{
+  "BoxName" : "List",
+  "LContainer": "Left Object",
+  "RContainer": "Right Object",
+  "Date" : "Date",
+  "Trash" : "Drop element to delete",
+  "PL" : "Polish",
+  "ENG" : "English"
+}
