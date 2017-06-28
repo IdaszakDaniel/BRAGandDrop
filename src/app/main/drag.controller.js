@@ -40,8 +40,6 @@
 
       $scope.dragItem = {
         beforeDrop: function(e) {
-          console.log(e.dest)
-          //.$modelValue.date = moment().format('MMMM Do YYYY, h:mm:ss a');
           function checkParent(node, actual){
             var x = node.$parentNodesScope.$parent; 
             if(!angular.isUndefined(x.$modelValue)){
