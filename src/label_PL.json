@@ -1,9 +1,9 @@
 {
-  "BoxName" : "Lista",
-  "LContainer": "Lewy Obiekt",
-  "RContainer": "Prawy Obiekt",
+  "LContainer": "Drzewo 1",
+  "RContainer": "Drzewo 2",
+  "Name": "Nazwa",
+  "Desc": "Opis",
   "Date" : "Data",
-  "Trash" : "Upuść element aby usunąć",
   "PL" : "Polski",
   "ENG" : "Angielski"
 }

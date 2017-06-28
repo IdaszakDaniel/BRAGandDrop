@@ -8,9 +8,14 @@
     /** @ngInject */
     function NestedLists($scope, GetJson) {
 
-      var promiseAnswers = GetJson.getData("baza");
+      var promiseAnswers = GetJson.getData("tree1");
       promiseAnswers.then(function(data){
-        $scope.models = data;
+        $scope.tree1 = data;
+      });
+
+      var promiseAnswers = GetJson.getData("tree2");
+      promiseAnswers.then(function(data){
+        $scope.tree2 = data;
       });
 
       var promiseAnswers = GetJson.getData("label_ENG");
@@ -21,50 +26,43 @@
       $scope.ChangeLang = function(lang){
         var promiseAnswers = GetJson.getData(lang);
         promiseAnswers.then(function(data){
-          console.log(data.LContainer);
           $scope.label = data;
         });
-      }
+      };
 
-      /*  $scope.onDrop = function(index){
-          if (index.nest == true){
-            index.nest = false;
-            console.log("2",index.nest);
-            console.log("tutaj");
-            return index;
+      $scope.remove = function (scope) {
+        scope.remove();
+      };
+
+      $scope.toggle = function (scope) {
+        scope.toggle();
+      };
+
+      $scope.dragItem = {
+        beforeDrop: function(e) {
+          console.log(e.dest)
+          //.$modelValue.date = moment().format('MMMM Do YYYY, h:mm:ss a');
+          function checkParent(node, actual){
+            var x = node.$parentNodesScope.$parent; 
+            if(!angular.isUndefined(x.$modelValue)){
+              return (x.$modelValue.name != actual) ? checkParent(x, actual) : false;
+            }
+            else return true;
           }
-        }*/
 
-        $scope.onDropRight = function(item){
-          if (item.nest == true){
-            item.nest = false;
-            item.right = false;
-            item.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-            return item;
-          }
+          if(angular.isUndefined(e.dest.nodesScope.$parent.$modelValue)) return true;
+          if(e.source.nodeScope.$modelValue.name == e.dest.nodesScope.$parent.$modelValue.name) return false;
+          return checkParent(e.dest.nodesScope.$parent,e.source.nodeScope.$modelValue.name);
+        },
+        dropped: function(e) {
+          var id = e.dest.index;
+          e.dest.nodesScope.$modelValue[id].date = moment().format('MMMM Do YYYY, h:mm:ss a');  
         }
-
-        $scope.onDropLeft = function(item){
-          if (item.nest == true || !item.right){
-            item.nest = false;
-            item.right = false;
-            item.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-            return item;
-          }
-        }
-
-        $scope.check = function(a){
-          console.log("position on drop",a);
-          return true;
-        }
+      };
 
     };
 
 })();
-
-
-
-
 
 
 

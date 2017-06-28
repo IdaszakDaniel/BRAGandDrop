@@ -19,114 +19,90 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body>
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <div ng-controller="NestedListsDemoController as drag">
+  <body ng-controller="NestedListsDemoController">
+      <script type="text/ng-template" id="nodes_renderer1.html">
+        <div ui-tree-handle class="tree-node tree-node-content">
+          <div class="tree-node-content">
+           <div class="row">
+            <div class="col-md-9">
+              <p>{{label.Name}}: {{node.name}}</p>
+              <p>{{label.Desc}}: <input ng-model="node.title" type="text"></p>
+              <p>ID:{{node.id}}</p>
+              <p>{{label.Date}}: {{node.date}}</p>
+            </div>
+            <div class="col-md-3"> <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a></div>
+          </div>
+          </div>
+        </div>
+        <ol ui-tree-nodes="dragEvent" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+          <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer1.html'">
+          </li>
+        </ol>
+      </script>
+      <script type="text/ng-template" id="nodes_renderer2.html">
+        <div class="tree-node">
+          <div class="pull-left tree-handle" ui-tree-handle>
+            <span class="glyphicon glyphicon-list"></span>
+          </div>
+          <div class="tree-node-content">
+            
+
+            <div class="row">
+              <div class="col-md-1">
+                <a class="btn btn-success btn-xs" data-nodrag ng-click="toggle(this)">
+                  <span class="glyphicon" ng-class="{
+                    'glyphicon-chevron-right': collapsed,
+                    'glyphicon-chevron-down': !collapsed
+                    }">
+                  </span>
+                </a>
+              </div>
+              <div class="col-md-8">
+                <p>{{label.Name}}: {{node.name}}</p>
+                <p>{{label.Desc}}: <input ng-model="node.title" type="text"></p>
+                <p>ID:{{node.id}}</p>
+                <p>{{label.Date}}: {{node.date}}</p>
+              </div>
+              <div class="col-md-2">
+                <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+          <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer2.html'">
+          </li>
+        </ol>
+      </script>
 
       <div class="col-md-12 navbar">
-        <div class="col-md-1">
-          <button class="navbar__button navbar__button--pl" ng-click="ChangeLang('label_PL')"></button>{{label.PL}}
+        <div class="col-md-1 col-xs-4">
+          <button class="navbar__button navbar__button--pl" ng-click="ChangeLang('label_PL')"></button><p>{{label.PL}}</p>
         </div>
-        <div class="col-md-1">
-          <button class="navbar__button navbar__button--eng" ng-click="ChangeLang('label_ENG')"></button>{{label.ENG}}
-        </div>
-        <div class="col-md-2 trashcan box box-grey box-padding pull-right">
-          <!-- If you use [] as referenced list, the dropped elements will be lost -->
-          <ul class="trashcan__list" dnd-list="[]">
-              <li>{{label.Trash}}</li>
-          </ul>
+        <div class="col-md-1 col-xs-4">
+          <button class="navbar__button navbar__button--eng" ng-click="ChangeLang('label_ENG')"></button><p>{{label.ENG}}</p>
         </div>
       </div>
       
-      <script type="text/ng-template" id="list.html"> <!-- dropzone A list -->
-        <ul dnd-list="list"
-        dnd-dragover="check(index)"
-        dnd-drop="onDropLeft(item)">
-            <li ng-repeat="item in list"
-                dnd-draggable="item"
-                dnd-effect-allowed="move"
-                dnd-moved="list.splice($index, 1)"
-                dnd-selected="models.selected = item"
-                ng-class="{selected: models.selected === item}"
-                ng-include="item.type + '.html'">
-            </li>
-        </ul>
-      </script>
-
-      <script type="text/ng-template" id="RListOuter.html"> <!-- dropzone B outer list -->
-        <ul dnd-list="list"
-        dnd-disable-if="true">
-            <li ng-repeat="item in list"
-                dnd-draggable="item"
-                dnd-effect-allowed="copy"
-                dnd-moved="list.splice($index, 1)"
-                dnd-selected="models.selected = item"
-                ng-class="{selected: models.selected === item}"
-                ng-include="item.type + '.html'"
-                >
-            </li>
-        </ul>
-      </script>
-
-        <script type="text/ng-template" id="RListInner.html"> <!-- dropzone b inner list -->
-        <ul dnd-list="list"
-        dnd-drop="onDropRight(item)">
-            <li ng-repeat="item in list"
-                dnd-draggable="item"
-                dnd-effect-allowed="move"
-                dnd-moved="list.splice($index, 1)"
-                dnd-selected="models.selected = item"
-                ng-class="{selected: models.selected === item}"
-                ng-include="item.type + '.html'"
-                >
-            </li>
-        </ul>
-      </script>
-
-      <!-- This template is responsible for rendering a container element. It uses
-           the above list template to render each container column -->
-      <script type="text/ng-template" id="container.html">
-          <div class="container-element box" >
-              <h3>{{label.LContainer}} {{item.id}}</h3>
-              <input type="text" ng-model="item.desc" class="form-control">
-              <p>ID: {{item.id}}</p>
-              <p>{{label.Date}}: {{item.date}}</p>
-              <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
-              <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-sm-6">
+          <h3>{{label.RContainer}}</h3>
+          <div ui-tree="" id="tree2-root" data-max-depth="8">
+            <ol ui-tree-nodes=""  ng-model="tree2">
+              <li ng-repeat="node in tree2" ui-tree-node="" ng-include="'nodes_renderer2.html'" ></li>
+            </ol>
           </div>
-      </script>
-
-      <script type="text/ng-template" id="Rcontainer.html">
-          <div class="container-element box" >
-              <h3>{{label.RContainer}} {{item.id}}</h3>
-              <input type="text" ng-model="item.desc" class="form-control">
-              <p>ID: {{item.id}}</p>
-              <p>{{label.Date}}: {{item.date}}</p>
-              <div class="column" ng-repeat="list in item.columns" ng-include="'RListInner.html'"></div>
-              <div class="clearfix"></div>
+        </div>
+        <div class="col-sm-6">
+          <h3>{{label.LContainer}}</h3>
+          <div ui-tree="dragItem" id="tree1-root" data-clone-enabled="true" data-nodrop-enabled="true">
+            <ol ui-tree-nodes="" ng-model="tree1">
+              <li ng-repeat="node in tree1" ui-tree-node="" ng-include="'nodes_renderer1.html'"></li>
+            </ol>
           </div>
-      </script>
-
-      <!-- Main area with dropzones and source code -->
-      <div class="col-md-12">
-          <div class="row">
-              <div ng-repeat="(zone, list) in models.dropzoneA" class="col-md-6">
-                  <div class="dropzone box box-yellow">
-                      <!-- The dropzone also uses the list template -->
-                      <h3>{{label.BoxName}} {{zone}}</h3>
-                      <div ng-include="'list.html'"></div>
-                  </div>
-              </div>
-              <div ng-repeat="(zone, list) in models.dropzoneB" class="col-md-6">
-                  <div class="dropzone box box-yellow">
-                      <!-- The dropzone also uses the list template -->
-                      <h3>{{label.BoxName}} {{zone}}</h3>
-                      <div ng-include="'RListOuter.html'"></div>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
     </div>
 

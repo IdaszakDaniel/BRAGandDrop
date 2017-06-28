@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('cartProject', ['toastr', 'dndLists']);
+    .module('cartProject', ['toastr', 'dndLists','ui.tree']);
 
 })();

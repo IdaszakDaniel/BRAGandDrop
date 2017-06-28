@@ -1,9 +1,9 @@
 {
-  "BoxName" : "List",
-  "LContainer": "Left Object",
-  "RContainer": "Right Object",
+  "LContainer": "Tree 1",
+  "RContainer": "Tree 2",
+  "Name": "Name",
+  "Desc": "Desc",
   "Date" : "Date",
-  "Trash" : "Drop element to delete",
   "PL" : "Polish",
   "ENG" : "English"
 }
